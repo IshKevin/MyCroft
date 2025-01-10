@@ -9,16 +9,28 @@
   "categories": [
     "Other"
   ],
+  
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "mycroft.helloWorld",
-        "title": "Hello World"
+    "viewsContainers": {
+      "activitybar": [
+        {
+        "id": "mycroft-sidebar",
+        "title": "MyCroft",
+        "icon": "resources/icon.png"
       }
     ]
   },
+  "views": {
+    "mycroft-sidebar": [
+      {
+        "id": "mycroftView",
+        "name": "MyCroft View"
+      }
+    ]
+  }
+  }, 
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -37,5 +49,13 @@
     "typescript": "^5.7.2",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1"
-  }
+  },
+  "views": {
+      "explorer": [
+        {
+          "id": "mycroftView",
+          "name": "MyCroft View"
+        }
+      ]
+    }
 }
