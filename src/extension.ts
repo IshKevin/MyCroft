@@ -9,6 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
+  
   vscode.window.registerWebviewViewProvider('mycroftView', new MyCroftViewProvider(context));
 }
 
@@ -22,6 +23,7 @@ class MyCroftViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
     };
 
+    // Set the HTML content for the Webview view
     webviewView.webview.html = this.getHtmlForWebview(webviewView.webview);
   }
 
@@ -36,7 +38,7 @@ class MyCroftViewProvider implements vscode.WebviewViewProvider {
       </head>
       <body>
         <h1>Hello from MyCroft!</h1>
-        <p>This is your custom view content.</p>
+        <p>This is your custom view content displayed in the primary sidebar.</p>
       </body>
       </html>
     `;
