@@ -10,7 +10,10 @@
     "Other"
   ],
   
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:mycroft.helloWorld",
+     "onView:mycroftView"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -18,7 +21,7 @@
         {
         "id": "mycroft-sidebar",
         "title": "MyCroft",
-        "icon": "resources/icon.png"
+        "icon": "resources/mycroft.png"
       }
     ]
   },
