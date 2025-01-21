@@ -1,7 +1,7 @@
 {
   "name": "mycroft",
   "displayName": "MyCroft",
-  "description": "",
+  "description": "Track and log your coding activities to GitHub",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -9,31 +9,48 @@
   "categories": [
     "Other"
   ],
-  
-  "activationEvents": [
-    "onCommand:mycroft.helloWorld",
-     "onView:mycroftView"
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "mycroft.initRepo",
+        "title": "MyCroft: Initialize Activity Tracking Repository"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
-        "id": "mycroft-sidebar",
-        "title": "MyCroft",
-        "icon": "resources/mycroft.png"
+          "id": "mycroft-sidebar",
+          "title": "MyCroft",
+          "icon": "resources/mycroft.png"
+        }
+      ]
+    },
+    "views": {
+      "mycroft-sidebar": [
+        {
+          "id": "mycroftView",
+          "name": "Activity Logger",
+          "type": "webview"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MyCroft",
+      "properties": {
+        "mycroft.githubToken": {
+          "type": "string",
+          "description": "GitHub Personal Access Token"
+        },
+        "mycroft.repositoryName": {
+          "type": "string",
+          "description": "Name of the GitHub repository to store activities"
+        }
       }
-    ]
+    }
   },
-  "views": {
-    "mycroft-sidebar": [
-      {
-        "id": "mycroftView",
-        "name": "MyCroft View"
-      }
-    ]
-  }
-  }, 
+  
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -43,22 +60,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2"
   },
-  "views": {
-      "explorer": [
-        {
-          "id": "mycroftView",
-          "name": "MyCroft View"
-        }
-      ]
-    }
+  "dependencies": {
+    "@octokit/rest": "^21.1.0"
+  }
 }
