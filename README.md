@@ -1,71 +1,77 @@
-# mycroft README
+# MyCroft
 
-This is the README for your extension "mycroft". After writing up a brief description, we recommend including the following sections.
+Track and log your coding activities directly to GitHub from VS Code. MyCroft helps developers maintain a comprehensive record of their work by automatically syncing activities to a dedicated repository.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **GitHub Integration**: Automatically sync activities to your GitHub repository
+- **Activity Tracking**: Log coding tasks, achievements, and milestones
+- **Visual Dashboard**: Monitor progress through an intuitive sidebar interface
+- **Custom Categories**: Organize activities with tags and categories
+- **Automated Syncing**: Seamless GitHub repository integration
 
-For example if there is an image subfolder under your extension project workspace:
+## Setup
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Install the extension
+2. Configure GitHub settings:
+   - Add GitHub Personal Access Token
+   - Set repository name for activity storage
+3. Run `MyCroft: Initialize Activity Tracking Repository`
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Configuration
 
-## Requirements
+This extension requires:
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- GitHub Personal Access Token with repo permissions
+- VS Code version 1.96.0 or higher
 
-## Extension Settings
+Settings:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```json
+{
+  "mycroft.githubToken": "your-github-token",
+  "mycroft.repositoryName": "your-activity-repo"
+}
+```
 
-For example:
+## Usage
 
-This extension contributes the following settings:
+1. Open MyCroft sidebar (activity bar icon)
+2. Use the Activity Logger to record your work
+3. Activities automatically sync to GitHub
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Commands
+
+- `MyCroft: Initialize Activity Tracking Repository`: Set up GitHub tracking
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Initial GitHub repository setup required before logging activities
+- Token validation may timeout on slow connections
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+- Initial release
+- GitHub integration
+- Activity logging dashboard
+- Automatic syncing
+- Custom activity categories
 
-### 1.0.1
+## Requirements
 
-Fixed issue #.
+- GitHub account
+- Personal Access Token
+- Node.js for extension development
 
-### 1.1.0
+## License
 
-Added features X, Y, and Z.
+MIT
 
----
+## Contributing
 
-## Following extension guidelines
+Issues and pull requests welcome on [GitHub](https://github.com/yourusername/mycroft).
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
 
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
