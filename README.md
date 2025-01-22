@@ -71,7 +71,7 @@ MIT
 
 ## Contributing
 
-Issues and pull requests welcome on [GitHub](https://github.com/yourusername/mycroft).
+Issues and pull requests welcome on [GitHub](https://github.com/IshKevin/MyCroft.git).
 
 
 
