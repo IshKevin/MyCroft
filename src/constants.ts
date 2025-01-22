@@ -1,4 +1,4 @@
-export const REPO_NAME = 'mycroft-logbook';
+export const REPO_NAME = 'mycroft-activity-repo';
 
 export const DEFAULT_DAILY_GOAL = 3;
 
