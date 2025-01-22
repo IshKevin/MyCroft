@@ -2,7 +2,7 @@
   "name": "mycroft",
   "displayName": "MyCroft",
   "description": "Track and log your coding activities to GitHub",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.96.0"
   },
