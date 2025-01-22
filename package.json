@@ -50,7 +50,6 @@
       }
     }
   },
-  
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -71,6 +70,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@octokit/rest": "^21.1.0"
+    "@octokit/rest": "^21.1.0",
+    "chart.js": "^4.4.7"
   }
 }
