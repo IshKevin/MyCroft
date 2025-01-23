@@ -13,299 +13,210 @@ interface WebviewTemplateData {
 
 const styles = {
   base: `
+    :root {
+      --bg-primary: var(--vscode-editor-background);
+      --bg-secondary: var(--vscode-input-background);
+      --text-primary: var(--vscode-foreground);
+      --text-muted: var(--vscode-descriptionForeground);
+      --accent: var(--vscode-textLink-foreground);
+      --border: var(--vscode-widget-border);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      color: var(--vscode-foreground);
-      background: var(--vscode-editor-background);
-      line-height: 1.8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 10px;
     }
+  `,
+  
+  container: `
     .container {
-      max-width: 900px;
+      max-width: 700px;
       margin: 0 auto;
-      padding: 20px;
-      border-radius: 12px;
-      background: linear-gradient(
-        to bottom,
-        var(--vscode-editor-background),
-        var(--vscode-editor-background)
-      );
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
   `,
   
-  inputs: `
-    .input-group {
-      background: linear-gradient(
-        to right bottom,
-        var(--vscode-button-background),
-        var(--vscode-button-hoverBackground)
-      );
-      padding: 24px;
-      border-radius: 16px;
-      margin-bottom: 32px;
+  quickStats: `
+    .quick-stats {
       display: grid;
-      gap: 16px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
     }
-    textarea {
-      min-height: 120px;
-      border-radius: 12px;
-      padding: 16px;
-      background: var(--vscode-input-background);
-      color: var(--vscode-input-foreground);
-      border: 2px solid var(--vscode-input-border);
-      font-size: 1.1em;
-      transition: all 0.3s ease;
-      resize: vertical;
+
+    .stat-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
     }
-    select, input {
-      height: 48px;
-      border-radius: 12px;
-      padding: 0 16px;
-      background: var(--vscode-input-background);
-      color: var(--vscode-input-foreground);
-      border: 2px solid var(--vscode-input-border);
-      font-size: 1em;
-      transition: all 0.3s ease;
+
+    .stat-card h2 {
+      font-size: 1.2em;
+      color: var(--accent);
+      margin-bottom: 5px;
     }
-    textarea:focus, select:focus, input:focus {
-      outline: none;
-      border-color: var(--vscode-focusBorder);
-      box-shadow: 0 0 0 3px var(--vscode-focusBorder);
-    }
-    label {
+
+    .stat-card p {
       font-size: 0.9em;
-      color: var(--vscode-descriptionForeground);
-      margin-bottom: 8px;
+      color: var(--text-muted);
+    }
+
+    .progress-container {
+      background: var(--bg-secondary);
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: var(--accent);
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.4s ease;
     }
   `,
   
-  button: `
-    button {
-      background: linear-gradient(
-        45deg,
-        var(--vscode-button-background),
-        var(--vscode-button-hoverBackground)
-      );
+  activityForm: `
+    .activity-form {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+      color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    #shipButton {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(45deg, var(--vscode-button-background), var(--vscode-button-hoverBackground));
       color: var(--vscode-button-foreground);
       border: none;
-      height: 48px;
-      font-size: 1.1em;
-      font-weight: 600;
-      border-radius: 12px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      gap: 10px;
     }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
-    button:active {
-      transform: translateY(0);
+
+    #shipButton:hover {
+      opacity: 0.9;
     }
   `,
   
-  stats: `
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-    .stat {
-      background: linear-gradient(
-        135deg,
-        var(--vscode-editor-background),
-        var(--vscode-input-background)
-      );
-      padding: 24px;
-      border-radius: 16px;
-      text-align: center;
-      transition: all 0.3s ease;
-      border: 1px solid var(--vscode-widget-border);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    }
-    .stat:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-    .stat h2 {
-      margin: 0;
-      font-size: 36px;
-      background: linear-gradient(
-        45deg,
-        var(--vscode-textLink-foreground),
-        var(--vscode-textLink-activeForeground)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 700;
-    }
-    .stat p {
-      margin: 8px 0 0;
-      color: var(--vscode-descriptionForeground);
-      font-size: 0.95em;
-      font-weight: 500;
-    }
-  `,
-  
-  activities: `
+  activityList: `
     .activity-list {
-      display: grid;
-      gap: 16px;
+      margin-top: 15px;
     }
+
     .activity-item {
-      padding: 20px;
-      background: linear-gradient(
-        to right,
-        var(--vscode-editor-background),
-        var(--vscode-input-background)
-      );
-      border: 1px solid var(--vscode-widget-border);
-      border-radius: 16px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
     }
-    .activity-item::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        var(--vscode-textLink-foreground),
-        var(--vscode-textLink-activeForeground)
-      );
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .activity-item:hover {
-      transform: translateX(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-    .activity-item:hover::before {
-      opacity: 1;
-    }
+
     .activity-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
+
     .activity-date {
-      color: var(--vscode-descriptionForeground);
-      font-size: 0.9em;
-      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.8em;
     }
+
     .activity-content {
-      margin-bottom: 16px;
-      line-height: 1.6;
-      font-size: 1.1em;
+      margin-bottom: 8px;
+      font-size: 1em;
     }
+
     .activity-meta {
       display: flex;
-      gap: 16px;
-      color: var(--vscode-descriptionForeground);
-      font-size: 0.9em;
-      flex-wrap: wrap;
+      justify-content: space-between;
       align-items: center;
     }
+
     .activity-mood {
-      padding: 4px 12px;
-      background: var(--vscode-badge-background);
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 500;
+      background: var(--accent);
+      color: white;
+      font-size: 0.7em;
+      padding: 3px 6px;
+      border-radius: 12px;
     }
-  `,
-  
-  tags: `
+
     .tags {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 5px;
     }
+
     .tag {
-      background: linear-gradient(
-        45deg,
-        var(--vscode-badge-background),
-        var(--vscode-badge-background)
-      );
-      color: var(--vscode-badge-foreground);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 500;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-    .tag:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-  `,
-  
-  progress: `
-    .progress-container {
-      background: var(--vscode-input-background);
-      height: 6px;
-      border-radius: 3px;
-      margin-top: 12px;
-      overflow: hidden;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-    }
-    .progress-bar {
-      background: linear-gradient(
-        90deg,
-        var(--vscode-progressBar-background),
-        var(--vscode-textLink-activeForeground)
-      );
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-size: 0.7em;
+      padding: 3px 6px;
+      border-radius: 12px;
     }
   `,
   
   chart: `
     .chart-container {
-      margin: 32px 0;
-      padding: 24px;
-      background: linear-gradient(
-        to bottom,
-        var(--vscode-editor-background),
-        var(--vscode-input-background)
-      );
-      border: 1px solid var(--vscode-widget-border);
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-      height: 300px;
+      margin: 15px 0;
+      padding: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      height: 250px;
     }
   `,
   
-  sections: `
+  sectionTitle: `
     .section-title {
-      margin: 32px 0 24px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--vscode-widget-border);
-      font-size: 1.3em;
-      font-weight: 700;
-      background: linear-gradient(
-        45deg,
-        var(--vscode-foreground),
-        var(--vscode-textLink-foreground)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin: 15px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.1em;
+      color: var(--accent);
     }
   `
 };
@@ -330,23 +241,23 @@ function getActivityChart(data: WebviewTemplateData) {
 
 function renderStats(data: WebviewTemplateData) {
   return `
-    <div class="stats">
-      <div class="stat">
+    <div class="quick-stats">
+      <div class="stat-card">
         <h2>${data.dailyGoal}</h2>
         <p>Daily Goal</p>
         <div class="progress-container">
           <div class="progress-bar" style="width: ${Math.min(100, (data.todayCount / data.dailyGoal) * 100)}%"></div>
         </div>
       </div>
-      <div class="stat">
+      <div class="stat-card">
         <h2>${data.currentStreak}</h2>
         <p>Day Streak</p>
       </div>
-      <div class="stat">
+      <div class="stat-card">
         <h2>${data.totalShips}</h2>
         <p>Total Ships</p>
       </div>
-      <div class="stat">
+      <div class="stat-card">
         <h2>${data.longestStreak}</h2>
         <p>Longest Streak</p>
       </div>
@@ -356,34 +267,42 @@ function renderStats(data: WebviewTemplateData) {
 
 function renderInputForm() {
   return `
-    <div class="input-group">
-      <label for="activityInput">What did you ship today?</label>
-      <textarea 
-        id="activityInput" 
-        placeholder="Describe your activity (Ctrl/Cmd + Enter to submit)" 
-        rows="3"
-      ></textarea>
+    <div class="activity-form">
+      <div class="form-group">
+        <label for="activityInput">What did you ship today?</label>
+        <textarea 
+          id="activityInput" 
+          placeholder="Describe your activity (Ctrl/Cmd + Enter to submit)" 
+          rows="3"
+        ></textarea>
+      </div>
       
-      <label for="categoryInput">Category</label>
-      <select id="categoryInput">
-        ${CATEGORIES.map(category => 
-          `<option value="${category}">${category}</option>`
-        ).join('')}
-      </select>
+      <div class="form-group">
+        <label for="categoryInput">Category</label>
+        <select id="categoryInput">
+          ${CATEGORIES.map(category => 
+            `<option value="${category}">${category}</option>`
+          ).join('')}
+        </select>
+      </div>
       
-      <label for="moodInput">Mood</label>
-      <select id="moodInput">
-        ${MOODS.map(mood => 
-          `<option value="${mood}">${mood}</option>`
-        ).join('')}
-      </select>
+      <div class="form-group">
+        <label for="moodInput">Mood</label>
+        <select id="moodInput">
+          ${MOODS.map(mood => 
+            `<option value="${mood}">${mood}</option>`
+          ).join('')}
+        </select>
+      </div>
       
-      <label for="tagsInput">Tags</label>
-      <input 
-        id="tagsInput" 
-        type="text" 
-        placeholder="Add tags (comma separated, e.g., frontend, bugfix, feature)"
-      >
+      <div class="form-group">
+        <label for="tagsInput">Tags</label>
+        <input 
+          id="tagsInput" 
+          type="text" 
+          placeholder="Add tags (comma separated, e.g., frontend, bugfix, feature)"
+        >
+      </div>
       
       <button id="shipButton">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -499,15 +418,15 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
             datasets: [{
               label: 'Activities',
               data: ${JSON.stringify(chartData.data)},
-              borderColor: 'var(--vscode-textLink-foreground)',
+              borderColor: 'var(--accent)',
               borderWidth: 2,
               fill: true,
               backgroundColor: 'rgba(75, 192, 192, 0.1)',
               tension: 0.4,
               pointRadius: 4,
               pointHoverRadius: 6,
-              pointBackgroundColor: 'var(--vscode-textLink-foreground)',
-              pointHoverBackgroundColor: 'var(--vscode-textLink-activeForeground)'
+              pointBackgroundColor: 'var(--accent)',
+              pointHoverBackgroundColor: 'var(--accent)'
             }]
           },
           options: {
@@ -518,10 +437,10 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
                 beginAtZero: true,
                 ticks: {
                   stepSize: 1,
-                  color: 'var(--vscode-foreground)'
+                  color: 'var(--text-primary)'
                 },
                 grid: {
-                  color: 'var(--vscode-widget-border)',
+                  color: 'var(--border)',
                   drawBorder: false
                 }
               },
@@ -530,7 +449,7 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
                   display: false
                 },
                 ticks: {
-                  color: 'var(--vscode-foreground)',
+                  color: 'var(--text-primary)',
                   maxRotation: 45,
                   minRotation: 45
                 }
@@ -541,10 +460,10 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
                 display: false
               },
               tooltip: {
-                backgroundColor: 'var(--vscode-editor-background)',
-                titleColor: 'var(--vscode-foreground)',
-                bodyColor: 'var(--vscode-foreground)',
-                borderColor: 'var(--vscode-widget-border)',
+                backgroundColor: 'var(--bg-primary)',
+                titleColor: 'var(--text-primary)',
+                bodyColor: 'var(--text-primary)',
+                borderColor: 'var(--border)',
                 borderWidth: 1,
                 padding: 12,
                 displayColors: false,

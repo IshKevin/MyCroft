@@ -58,6 +58,12 @@ Settings:
 - Activity logging dashboard
 - Automatic syncing
 - Custom activity categories
+  
+### 1.1.0
+
+- Enhanced UI for the activity logger sidebar
+- Improved visual dashboard for monitoring progress
+- Minor bug fixes and performance improvements
 
 ## Requirements
 
