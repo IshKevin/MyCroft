@@ -2,6 +2,11 @@
 
 All notable changes to the "mycroft" extension will be documented in this file.
 
+## 1.1.1 - 2025-02-10
+
+### Changed
+
+- Updated icon reference.
 
 ## 1.1.0 - 2025-01-24
 
