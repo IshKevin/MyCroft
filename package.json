@@ -15,7 +15,7 @@
     "onView:mycroftView"
   ],
   "main": "./out/extension.js",
-  "icon": "resources/mycroft.png",
+  "icon": "resources/mycroftMain.png",
   "contributes": {
     "commands": [
       {
