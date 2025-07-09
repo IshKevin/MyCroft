@@ -1,15 +1,6 @@
 import * as vscode from 'vscode';
-import { Activity } from '../types';
+import { WebviewTemplateData, Activity } from '../types';
 import { CATEGORIES, MOODS } from '../constants';
-
-interface WebviewTemplateData {
-  activities: Activity[];
-  dailyGoal: number;
-  currentStreak: number;
-  totalShips: number;
-  longestStreak: number;
-  todayCount: number;
-}
 
 const styles = {
   base: `
@@ -218,6 +209,38 @@ const styles = {
       font-size: 1.1em;
       color: var(--accent);
     }
+  `,
+
+  sessionIndicator: `
+    .active-session-info {
+      background: var(--vscode-editor-inactiveSelectionBackground);
+      border: 1px solid var(--vscode-textLink-foreground);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .session-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9em;
+      color: var(--vscode-textLink-foreground);
+    }
+
+    .session-icon {
+      font-size: 1.2em;
+    }
+
+    .session-duration {
+      margin-left: auto;
+      font-weight: bold;
+      background: var(--vscode-textLink-foreground);
+      color: var(--vscode-editor-background);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.8em;
+    }
   `
 };
 
@@ -265,50 +288,74 @@ function renderStats(data: WebviewTemplateData) {
   `;
 }
 
-function renderInputForm() {
+function renderInputForm(data: WebviewTemplateData) {
   return `
     <div class="activity-form">
       <div class="form-group">
         <label for="activityInput">What did you ship today?</label>
-        <textarea 
-          id="activityInput" 
-          placeholder="Describe your activity (Ctrl/Cmd + Enter to submit)" 
+        <textarea
+          id="activityInput"
+          placeholder="Describe your activity (Ctrl/Cmd + Enter to submit)"
           rows="3"
         ></textarea>
       </div>
-      
+
+      ${data.projects && data.projects.length > 0 ? `
+        <div class="form-group">
+          <label for="projectInput">Project (Optional)</label>
+          <select id="projectInput">
+            <option value="">No specific project</option>
+            ${data.projects.filter(p => p.status === 'active').map(project =>
+              `<option value="${project.id}" ${data.currentProject?.id === project.id ? 'selected' : ''}>
+                ${project.name}
+              </option>`
+            ).join('')}
+          </select>
+        </div>
+      ` : ''}
+
       <div class="form-group">
         <label for="categoryInput">Category</label>
         <select id="categoryInput">
-          ${CATEGORIES.map(category => 
+          ${CATEGORIES.map(category =>
             `<option value="${category}">${category}</option>`
           ).join('')}
         </select>
       </div>
-      
+
       <div class="form-group">
         <label for="moodInput">Mood</label>
         <select id="moodInput">
-          ${MOODS.map(mood => 
+          ${MOODS.map(mood =>
             `<option value="${mood}">${mood}</option>`
           ).join('')}
         </select>
       </div>
-      
+
       <div class="form-group">
         <label for="tagsInput">Tags</label>
-        <input 
-          id="tagsInput" 
-          type="text" 
+        <input
+          id="tagsInput"
+          type="text"
           placeholder="Add tags (comma separated, e.g., frontend, bugfix, feature)"
         >
       </div>
-      
+
+      ${data.activeSession ? `
+        <div class="active-session-info">
+          <div class="session-indicator">
+            <span class="session-icon">⏱️</span>
+            <span>Active ${data.activeSession.type} session</span>
+            <span class="session-duration">${data.activeSession.duration}min</span>
+          </div>
+        </div>
+      ` : ''}
+
       <button id="shipButton">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
           <path d="M8 0L16 8L8 16L0 8L8 0ZM8 2.8L2.8 8L8 13.2L13.2 8L8 2.8Z"/>
         </svg>
-        Ship It!
+        Ship It! ${data.user ? `(+${Math.round(5 + (data.currentStreak * 0.5))} XP)` : ''}
       </button>
     </div>
   `;
@@ -333,7 +380,7 @@ function renderActivityList(activities: Activity[]) {
       <div class="activity-meta">
         <span>📁 ${activity.category}</span>
         <div class="tags">
-          ${activity.tags.map(tag => 
+          ${activity.tags.map((tag: string) =>
             `<span class="tag">${tag}</span>`
           ).join('')}
         </div>
@@ -360,7 +407,7 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
       <div class="container">
         ${renderStats(data)}
         
-        ${renderInputForm()}
+        ${renderInputForm(data)}
         
         <h3 class="section-title">Activity Trends</h3>
         <div class="chart-container">
@@ -389,20 +436,23 @@ export async function getWebviewContent(webview: vscode.Webview, data: WebviewTe
           const text = document.getElementById('activityInput').value.trim();
           const category = document.getElementById('categoryInput').value;
           const mood = document.getElementById('moodInput').value;
+          const projectSelect = document.getElementById('projectInput');
+          const projectId = projectSelect ? projectSelect.value : undefined;
           const tags = document.getElementById('tagsInput').value
             .split(',')
             .map(tag => tag.trim())
             .filter(Boolean);
-            
+
           if (text) {
             vscode.postMessage({
               command: 'shipActivity',
               text,
               category,
               mood,
-              tags
+              tags,
+              projectId
             });
-            
+
             // Clear form
             document.getElementById('activityInput').value = '';
             document.getElementById('tagsInput').value = '';
