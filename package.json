@@ -1,19 +1,18 @@
 {
   "name": "mycroft",
-  "displayName": "MyCroft",
-  "description": "Track and log your coding activities to GitHub",
-  "version": "1.1.1",
-   "publisher": "Mycroft",
+  "displayName": "MyCroft 2.0",
+  "description": "AI-powered developer productivity companion with advanced analytics, time tracking, and team collaboration",
+  "version": "2.0.0",
+  "publisher": "Mycroft",
   "engines": {
     "vscode": "^1.96.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Analytics",
+    "Productivity"
   ],
-  "activationEvents": [
-    "onCommand:mycroft.initRepo",
-    "onView:mycroftView"
-  ],
+
   "main": "./out/extension.js",
   "icon": "resources/mycroftMain.png",
   "contributes": {
@@ -21,6 +20,42 @@
       {
         "command": "mycroft.initRepo",
         "title": "MyCroft: Initialize Activity Tracking Repository"
+      },
+      {
+        "command": "mycroft.setGoal",
+        "title": "MyCroft: Set Daily Goal"
+      },
+      {
+        "command": "mycroft.startPomodoro",
+        "title": "MyCroft: Start Pomodoro Session"
+      },
+      {
+        "command": "mycroft.startDeepWork",
+        "title": "MyCroft: Start Deep Work Session"
+      },
+      {
+        "command": "mycroft.openDashboard",
+        "title": "MyCroft: Open Analytics Dashboard"
+      },
+      {
+        "command": "mycroft.exportData",
+        "title": "MyCroft: Export Activity Data"
+      },
+      {
+        "command": "mycroft.syncData",
+        "title": "MyCroft: Sync Data"
+      },
+      {
+        "command": "mycroft.openSettings",
+        "title": "MyCroft: Open Settings"
+      },
+      {
+        "command": "mycroft.viewAchievements",
+        "title": "MyCroft: View Achievements"
+      },
+      {
+        "command": "mycroft.createProject",
+        "title": "MyCroft: Create New Project"
       }
     ],
     "viewsContainers": {
@@ -38,11 +73,31 @@
           "id": "mycroftView",
           "name": "Activity Logger",
           "type": "webview"
+        },
+        {
+          "id": "mycroftAnalytics",
+          "name": "Analytics Dashboard",
+          "type": "webview"
+        },
+        {
+          "id": "mycroftTimer",
+          "name": "Focus Timer",
+          "type": "webview"
+        },
+        {
+          "id": "mycroftProjects",
+          "name": "Projects",
+          "type": "webview"
+        },
+        {
+          "id": "mycroftAchievements",
+          "name": "Achievements",
+          "type": "webview"
         }
       ]
     },
     "configuration": {
-      "title": "MyCroft",
+      "title": "MyCroft 2.0",
       "properties": {
         "mycroft.githubToken": {
           "type": "string",
@@ -51,6 +106,54 @@
         "mycroft.repositoryName": {
           "type": "string",
           "description": "Name of the GitHub repository to store activities"
+        },
+
+        "mycroft.autoTimeTracking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically track coding time"
+        },
+        "mycroft.pomodoroLength": {
+          "type": "number",
+          "default": 25,
+          "description": "Pomodoro session length in minutes"
+        },
+        "mycroft.breakLength": {
+          "type": "number",
+          "default": 5,
+          "description": "Break length in minutes"
+        },
+        "mycroft.shortFocusLength": {
+          "type": "number",
+          "default": 45,
+          "description": "Short focus session length in minutes"
+        },
+        "mycroft.deepWorkLength": {
+          "type": "number",
+          "default": 90,
+          "description": "Deep work session length in minutes"
+        },
+        "mycroft.extendedFocusLength": {
+          "type": "number",
+          "default": 240,
+          "description": "Extended focus session length in minutes (4 hours)"
+        },
+        "mycroft.theme": {
+          "type": "string",
+          "enum": ["auto", "light", "dark", "neon"],
+          "default": "auto",
+          "description": "UI theme preference"
+        },
+        "mycroft.enableNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable desktop notifications"
+        },
+
+        "mycroft.enableGamification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable achievements and gamification"
         }
       }
     }
@@ -67,6 +170,8 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@types/vscode": "^1.96.0",
+    "@types/lodash": "^4.17.13",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
     "@vscode/test-cli": "^0.0.10",
@@ -76,8 +181,45 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.1.0",
-    "chart.js": "^4.4.7"
+    "chart.js": "^4.4.7",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^3.6.0",
+    "lodash": "^4.17.21",
+    "uuid": "^10.0.0"
   },
+  "keybindings": [
+    {
+      "command": "mycroft.quickLogActivity",
+      "key": "ctrl+shift+m",
+      "mac": "cmd+shift+m",
+      "when": "editorTextFocus"
+    },
+    {
+      "command": "mycroft.startPomodoro",
+      "key": "ctrl+alt+p",
+      "mac": "cmd+alt+p"
+    },
+    {
+      "command": "mycroft.toggleTimer",
+      "key": "ctrl+shift+t",
+      "mac": "cmd+shift+t"
+    },
+    {
+      "command": "mycroft.startShortFocus",
+      "key": "ctrl+alt+s",
+      "mac": "cmd+alt+s"
+    },
+    {
+      "command": "mycroft.startExtendedFocus",
+      "key": "ctrl+alt+e",
+      "mac": "cmd+alt+e"
+    },
+    {
+      "command": "mycroft.startCustomSession",
+      "key": "ctrl+alt+c",
+      "mac": "cmd+alt+c"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/IshKevin/MyCroft.git"
@@ -94,6 +236,14 @@
   "keywords": [
     "GitHub",
     "Activity Tracking",
-    "Coding Logger"
+    "Coding Logger",
+    "Productivity",
+    "Analytics",
+    "Time Tracking",
+    "Pomodoro",
+    "Gamification",
+    "Developer Tools",
+    "Focus Timer",
+    "Project Management"
   ]
 }
