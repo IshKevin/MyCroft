@@ -67,15 +67,45 @@ Add the following configuration to your VS Code `settings.json`:
 
 ## 📌 **Release Notes**
 
-### **v1.1.0**  
-- Enhanced UI for the activity logger sidebar.  
-- Improved **visual dashboard** for better progress monitoring.  
-- **Bug fixes** and performance improvements.  
+### **v2.1.0** 🎯 **Custom Focus Time Update**
 
-### **v1.0.0**  
-- Initial release with GitHub integration.  
-- **Activity logging dashboard** and automatic syncing.  
-- Support for **custom activity categories**.  
+**New Focus Session Types:**
+- ⚡ **Short Focus (45min)** - Perfect for medium-complexity tasks
+- 🎯 **Extended Focus (4hrs)** - Marathon sessions for major projects
+- ⚙️ **Custom Duration** - Set any time from 1 minute to 8 hours
+- Enhanced timer controls with 5 different session types
+
+**Keyboard Shortcuts Added:**
+- `Ctrl+Alt+S` - Start Short Focus Session
+- `Ctrl+Alt+E` - Start Extended Focus Session (4 hours)
+- `Ctrl+Alt+C` - Start Custom Duration Session
+
+**Configuration Options:**
+- `mycroft.shortFocusLength` - Customize short focus duration
+- `mycroft.extendedFocusLength` - Customize extended focus duration
+- All session types now configurable in VS Code settings
+
+### **v2.0.0** 🎉 **Major Release - Complete Productivity Overhaul**
+
+- ⏱️ **Advanced Time Tracking** with Pomodoro and Deep Work sessions
+- 📁 **Project Management** with goals, milestones, and analytics
+- 🏆 **Gamification System** with achievements, XP, and leveling
+- 📊 **Enhanced Analytics** with comprehensive dashboards
+- 🎨 **Modern UI** with multiple specialized panels
+- 🔥 **Advanced Streak Tracking** with detailed analytics
+- 📈 **Visual Charts** using Chart.js for better insights
+- 🎯 **Goal Setting** for projects and daily targets
+- 📤 **Data Export** with comprehensive reporting
+
+### **v1.1.0**
+- Enhanced UI for the activity logger sidebar
+- Improved visual dashboard for better progress monitoring
+- Bug fixes and performance improvements
+
+### **v1.0.0**
+- Initial release with GitHub integration
+- Activity logging dashboard and automatic syncing
+- Support for custom activity categories
 
 ---
 
